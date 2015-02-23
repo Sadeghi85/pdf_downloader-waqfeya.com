@@ -24,11 +24,22 @@ foreach ($allBooks as $categoryTitle => $books) {
 		foreach ($volumesNodeList as $node) {
 			$volumes[$categoryTitle][$bookTitle][base64_encode($node->textContent)] = $node->getAttribute('href');
 		}
+		
+		$xpathQuery = sprintf('//%s[@%s=\'%s\']', 'td', 'class', 'row1');
+		$tdNodeList = $xpath->query($xpathQuery, $dom);
+
+		foreach ($tdNodeList as $node) {
+			
+			$html = $dom->saveHTML($node);
+			if (preg_match('#archive.org/download/[^<>]*?\.pdf#i', $html)) {
+				$volumes[$categoryTitle][$bookTitle][base64_encode('details')] = base64_encode($html);
+			}
+		}
 	}
 	
 	break;
 	
 }
 
-var_dump($volumes);
+//var_dump($volumes);
 file_put_contents('volumes.dat', serialize($volumes));
