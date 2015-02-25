@@ -1,5 +1,8 @@
 <?php
 
+require('HTMLPurifier.standalone.php');
+require('utils.php');
+
 $siteUrl = 'http://waqfeya.com/';
 
 $categories = [];
@@ -12,8 +15,8 @@ $xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', 'a', 'href', 'category.p
 $categoriesNodeList = $xpath->query($xpathQuery, $dom);
 
 foreach ($categoriesNodeList as $node) {
-
 	$categories[base64_encode($node->textContent)] = $node->getAttribute('href');
+	echo $node->getAttribute('href')."\n";
 }
 
 file_put_contents('categories.dat', serialize($categories));

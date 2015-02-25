@@ -1,5 +1,8 @@
 <?php
 
+require('HTMLPurifier.standalone.php');
+require('utils.php');
+
 $siteUrl = 'http://waqfeya.com/';
 
 $categories = unserialize(file_get_contents('categories.dat'));
@@ -19,10 +22,6 @@ foreach ($categories as $categoryTitle => $categoryUrl) {
 		$st += 15;
 	}
 	
-	// file_put_contents(preg_replace('#\D#', '', $categoryUrl), print_r($categoryPageContent, true));
-	// die();
-	
-	
 	$dom = getDOMFromContent($categoryPageContent);
 	$xpath = new DOMXpath($dom);
 	$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', 'a', 'href', 'book.php');
@@ -30,10 +29,10 @@ foreach ($categories as $categoryTitle => $categoryUrl) {
 
 	foreach ($booksNodeList as $node) {
 		$books[$categoryTitle][base64_encode($node->textContent)] = $node->getAttribute('href');
+		echo $node->getAttribute('href')."\n";
 	}
 	
-	
-	break;
+	//break;
 }
 
 file_put_contents('books.dat', serialize($books));

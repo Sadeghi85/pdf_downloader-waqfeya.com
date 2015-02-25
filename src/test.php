@@ -11,7 +11,9 @@ $volumes = [];
 foreach ($allBooks as $categoryTitle => $books) {
 	
 	foreach ($books as $bookTitle => $bookUrl) {
-		usleep(500000);
+		//usleep(500000);
+		
+		if ( ! in_array($bookUrl, ['book.php?bid=5810', 'book.php?bid=7664', 'book.php?bid=7666', 'book.php?bid=7657', 'book.php?bid=7660', 'book.php?bid=8929', 'book.php?bid=5046', 'book.php?bid=594'])) { continue; }
 		
 		$bookPageContent = prepareHTML(file_get_contents(sprintf('%s/%s', $siteUrl, $bookUrl)));
 		
@@ -46,4 +48,4 @@ foreach ($allBooks as $categoryTitle => $books) {
 }
 
 //var_dump($volumes);
-file_put_contents('volumes.dat', serialize($volumes));
+file_put_contents('volumes1.dat', serialize($volumes));
