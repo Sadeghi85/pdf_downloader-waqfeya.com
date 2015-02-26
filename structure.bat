@@ -9,8 +9,8 @@ REM call php.exe -c php.ini -f ./src/index2.php
 REM call php.exe -c php.ini -f ./src/index3.php
 REM call php.exe -c php.ini -f ./src/index4.php
 REM call php.exe -c php.ini -f ./src/test.php -- %1
-REM call php.exe -c php.ini -f ./src/structure.php -- %1
-call php.exe -c php.ini -f ./src/move.php -- %1
+call php.exe -c php.ini -f ./src/structure.php -- %1
+REM call php.exe -c php.ini -f ./src/move.php -- %1
 
 echo. && echo.
 pause
