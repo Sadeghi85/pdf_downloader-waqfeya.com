@@ -6,7 +6,8 @@ require('utils.php');
 //$siteUrl = 'http://waqfeya.com/';
 $rootFolder = 'structure-test';
 $sanityRegex = '[^\p{L}\p{M}\p{N}\p{Pe}\p{Ps}\p{Pd}\p{Pc} ]';
-$thisCategoryTitle = '213.3 الجرح والتعديل';
+//$thisCategoryTitle = '218.1 التزكية والأخلاق والآداب';
+$thisCategoryTitle = file_get_contents($argv[1]);
 $thisCategoryTitle = trim(preg_replace(sprintf('#%s#u', $sanityRegex), '_', $thisCategoryTitle));
 $pdfUrlList = [];
 

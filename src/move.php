@@ -12,7 +12,8 @@ if ( ! file_exists('structure')) {
 $downloadFolder = realpath('download');
 $structureFolder = realpath('structure');
 $sanityRegex = '[^\p{L}\p{M}\p{N}\p{Pe}\p{Ps}\p{Pd}\p{Pc} ]';
-$thisCategoryTitle = '213.3 الجرح والتعديل';
+//$thisCategoryTitle = '218.1 التزكية والأخلاق والآداب';
+$thisCategoryTitle = file_get_contents($argv[1]);
 $thisCategoryTitle = trim(preg_replace(sprintf('#%s#u', $sanityRegex), '_', $thisCategoryTitle));
 $allVolumes = unserialize(file_get_contents('volumes.dat'));
 $num = 0;
@@ -71,12 +72,21 @@ foreach ($allVolumes as $categoryTitle => $books) {
 					$logFile = sprintf('%s\\%s', $downloadFolder, $item);
 					$downlodedUrl = preg_replace('#.*URL:([^\r\n]+).+#isu', '$1', @file_get_contents($logFile));
 					$downlodedName = preg_replace('#.*Name:([^\r\n]+).+#isu', '$1', @file_get_contents($logFile));
-					$oldFile = sprintf('wfio://%s\\%s', $downloadFolder, str_replace('.log', '', $item));
-					$newFile = sprintf('wfio://%s\\%s\\%s\\%s\\%s', $structureFolder, $categoryTitle, $bookTitle, $title, $downlodedName);
+					//$oldFile = sprintf('wfio://%s\\%s', $downloadFolder, str_replace('.log', '', $item));
+					//$newFile = sprintf('wfio://%s\\%s\\%s\\%s\\%s', $structureFolder, $categoryTitle, $bookTitle, $title, $downlodedName);
+					
+					$now = microtime(true);
+					$oldFile = sprintf('%s\\%s', $downloadFolder, str_replace('.log', '', $item));
+					$ren1File = sprintf('%s\\%s', $downloadFolder, $now.'.pdf');
+					$ren2File = sprintf('wfio://%s\\%s', $downloadFolder, $now.'.pdf');
+					$newNewFile = sprintf('wfio://%s\\%s\\%s\\%s\\%s', $structureFolder, $categoryTitle, $bookTitle, $title, $downlodedName);
 					
 					if ($downlodedUrl == $target) {
-						rename($oldFile, $newFile);
-						unlink(sprintf('wfio://%s\\%s', $downloadFolder, $item));
+						//rename($oldFile, $newFile);
+						
+						rename($oldFile, $ren1File);
+						rename($ren2File, $newNewFile);
+						unlink(sprintf('%s\\%s', $downloadFolder, $item));
 					
 					}
 				}
